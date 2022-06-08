@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.aberdar.todolist.entity.UserEntity;
 import ru.aberdar.todolist.exception.UserAlreadyExistsException;
+import ru.aberdar.todolist.exception.UserNotFoundException;
 import ru.aberdar.todolist.service.UserService;
 
 @RestController
@@ -19,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<String> registration(@RequestBody UserEntity user) {
+    public ResponseEntity registration(@RequestBody UserEntity user) {
         try {
             userService.registration(user);
             return ResponseEntity.ok("User saved");
@@ -30,10 +32,12 @@ public class UserController {
         }
     }
 
-    @GetMapping("/")
-    public ResponseEntity<String> getUsers() {
+    @GetMapping
+    public ResponseEntity getOneUser(@RequestParam Long id) {
         try {
-            return ResponseEntity.ok("Server is ready");
+            return ResponseEntity.ok(userService.getUser(id));
+        } catch (UserNotFoundException exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body("Error");
         }
