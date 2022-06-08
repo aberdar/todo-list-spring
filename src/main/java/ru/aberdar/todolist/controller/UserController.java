@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @GetMapping("/")
-    public ResponseEntity getUsers() {
+    public ResponseEntity<String> getUsers() {
         try {
             return ResponseEntity.ok("Server is ready");
         } catch (Exception exception) {
