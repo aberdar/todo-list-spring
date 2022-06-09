@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.aberdar.todolist.entity.UserEntity;
 import ru.aberdar.todolist.exception.UserAlreadyExistsException;
 import ru.aberdar.todolist.exception.UserNotFoundException;
+import ru.aberdar.todolist.model.User;
 import ru.aberdar.todolist.repository.UserRepository;
 
 @Service
@@ -20,11 +21,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserEntity getUser(Long id) throws UserNotFoundException {
+    public User getUser(Long id) throws UserNotFoundException {
         UserEntity user = userRepository.findById(id).get();
         if (user == null) {
             throw new UserNotFoundException("User not found");
         }
-        return user;
+        return User.toModel(user);
     }
 }

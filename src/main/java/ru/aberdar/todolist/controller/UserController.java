@@ -39,7 +39,7 @@ public class UserController {
         } catch (UserNotFoundException exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         } catch (Exception exception) {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body("User not found");
         }
     }
 }
